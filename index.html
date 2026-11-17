@@ -31,4 +31,372 @@ section{padding:88px 0}.section-top{display:flex;justify-content:space-between;a
 <section id="ruta"><div class="wrap learn"><div class="learn-aside"><div class="kicker">03 / Mi ruta</div><h2>Aprender paso a paso.</h2><p class="section-copy">La mejor manera de avanzar es ir con calma, probar y documentar lo que funciona. Esta será mi guía de aprendizaje.</p></div><div class="steps"><article class="step"><div class="step-no">1</div><div><h3>Conocer</h3><p>Explorar la interfaz y comprender el propósito general de deMok2.</p></div></article><article class="step"><div class="step-no">2</div><div><h3>Experimentar</h3><p>Probar las herramientas disponibles y registrar los pasos importantes.</p></div></article><article class="step"><div class="step-no">3</div><div><h3>Crear</h3><p>Aplicar lo aprendido en ejercicios y pequeños proyectos personales.</p></div></article><article class="step"><div class="step-no">4</div><div><h3>Compartir</h3><p>Convertir mis descubrimientos en guías claras para volver a consultarlas.</p></div></article></div></div></section>
 <section id="contacto"><div class="wrap contact"><div class="kicker">04 / Sigamos aprendiendo</div><h2>Gracias por visitar mi espacio.</h2><p>Este sitio irá creciendo con nuevos apuntes, prácticas y descubrimientos sobre deMok2.</p><a class="btn primary" href="#inicio">Volver al inicio ↑</a></div></section>
 </main><footer class="wrap footer"><span>© 2026 Priscila Roque</span><span>Hecho con curiosidad y creatividad ✦</span></footer>
-</body></html>
+
+
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validación del cálculo de constantes hiperfinas usando la ADFT</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #3182ce;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.65;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #ffffff;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-btn {
+            background-color: var(--card-bg);
+            color: var(--primary-color);
+            border: 2px solid var(--secondary-color);
+            padding: 0.65rem 1.1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-btn:hover {
+            background-color: var(--secondary-color);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #ffffff;
+            box-shadow: 0 4px 6px rgba(26, 54, 93, 0.25);
+        }
+
+        .content-card {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        .section-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.65rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1.1rem;
+            text-align: justify;
+        }
+
+        ol, ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        li {
+            margin-bottom: 0.55rem;
+            text-align: justify;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #718096;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            .content-card {
+                padding: 1.5rem;
+            }
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Validación del cálculo de constantes hiperfinas usando la ADFT</h1>
+    </header>
+
+    <div class="container">
+        <!-- Botones de navegación -->
+        <nav class="nav-buttons">
+            <button class="nav-btn active" onclick="mostrarSeccion('introduccion', this)">Inicio / Introducción</button>
+            <button class="nav-btn" onclick="mostrarSeccion('antecedentes', this)">Antecedentes</button>
+            <button class="nav-btn" onclick="mostrarSeccion('planteamiento', this)">Planteamiento del problema/justificación</button>
+            <button class="nav-btn" onclick="mostrarSeccion('hipotesis', this)">Hipotesis</button>
+            <button class="nav-btn" onclick="mostrarSeccion('objetivos', this)">Objetivos: General y específicos</button>
+            <button class="nav-btn" onclick="mostrarSeccion('metodologia', this)">Metodología</button>
+            <button class="nav-btn" onclick="mostrarSeccion('recursos', this)">Recursos</button>
+            <button class="nav-btn" onclick="mostrarSeccion('demon2k', this)">Descripción del programa deMon2K</button>
+        </nav>
+
+        <!-- Contenedor de secciones -->
+        <main class="content-card">
+
+            <!-- INTRODUCCIÓN (Página de inicio) -->
+            <section id="introduccion" class="section-content active">
+                <h2>Introducción</h2>
+                <p>
+                    La resonancia paramagnética electrónica es una espectroscopia muy útil para estudiar la estructura electrónica y molecular de sistemas de capa abierta, aquellos que tienen electrones desapareados, tales como: radicales libres y compuestos organometálicos. Una mejor manera de estudiar un espectro de RPE [1] es utilizando, además de los datos experimentales, también usar datos que arrojen métodos mecano-cuánticos, ya que en el fenómeno en sí, participan partículas microscópicas o subatómicas que sólo obedecen al marco teórico de la física cuántica.
+                </p>
+                <p>
+                    Existen diversos métodos mecano-cuánticos capaces de calcular los parámetros de RPE [2], como lo son el tensor-g y la constante de acoplamiento hiperfino [2], al cual este trabajo está dedicado. Hay métodos que están diseñados para dar una alta precisión en el cálculo de propiedades moleculares como los parámetros de RPE, pero tienen un alto costo computacional que los vuelven imprácticos de usar, por otro lado existen otros métodos que son computacionalmente baratos, pero arrojan resultados que tienen un acuerdo muy pobre con los datos experimentales, siendo por lo tanto de poca ayuda para mejorar la interpretación del espectro. Recientemente un método llamado Teoría de los Funcionales de la Densidad Auxiliar (ADFT por sus siglas en inglés) [3] ha sido utilizado para el cálculo de propiedades moleculares entre ellas los parámetros de RPE, el cálculo está basado en la Teoría de Perturbaciones de la Densidad Auxiliar (ADPT por sus siglas en inglés) que se trabaja en el grupo de química teórica del Departamento de Química del CUCEI.
+                </p>
+                <p>
+                    El módulo para cálculos de RPE dentro del software de estructura electrónica deMon2k ya está programado, pero requiere hacerse una extensa validación para saber qué tan preciso es para predecir las constantes de acoplamiento hiperfino con respecto a datos experimentales, es necesario conocer estos datos para poder promover el software entre químicos experimentales que usan la técnica de RPE. También necesitamos solventar el problema del costo computacional mediante la paralelización del módulo para que los cálculos sean más rápidos que los que se efectúan con otros métodos y al mismo tiempo tratar de romper la barrera de cuán grande es la molécula que podemos calcular si tenemos una precisión aceptable y si mejoramos el costo computacional tendremos una contribución significativa en el campo del cálculo de propiedades magnéticas moleculares en particular para RPE que es a donde nos queremos enfocar.
+                </p>
+            </section>
+
+            <!-- ANTECEDENTES -->
+            <section id="antecedentes" class="section-content">
+                <h2>Antecedentes</h2>
+                <p>
+                    Como se mencionó anteriormente existen varios métodos para calcular las constantes de acoplamiento hiperfinas, cuya precisión es proporcional al costo computacional. Entre ella tenemos el método de Hartree-Fock que es ejemplo de bajo costo computacional, pero ofrece malos resultados, esto debido a que no toma en cuenta la interacción cuántica conocida como correlación. En el otro extremo está un método altamente correlacionado que describe bien la interacciones cuánticas de los electrones, pero tiene un costo computacional muy alto y su porcentaje promedio de error es aproximadamente del 11% con respecto a datos experimentales de un conjunto de moléculas con valores de acoplamiento bien medidos.
+                </p>
+                <p>
+                    En un punto intermedio tenemos el método post Hartree-Fock llamado MBPT(2) que ofrece un promedio de porcentaje de error aproximado de 48%, por lo tanto esperamos en este proyecto tanto mejorar el promedio del porcentaje de error, así como el costo computacional comparado contra los demás métodos. Presentaremos una metodología que será confiable para el cálculo de constantes hiperfinas y que nos permitirá calcular moléculas con cientos de átomos que es el límite actual de los métodos anteriores, usando recursos computacionales moderados.
+                </p>
+            </section>
+
+            <!-- PLANTEAMIENTO DEL PROBLEMA / JUSTIFICACIÓN -->
+            <section id="planteamiento" class="section-content">
+                <h2>Planteamiento del problema / justificación</h2>
+                <p>
+                    En el campo de la química teórica y computacional, la precisión en el cálculo de propiedades moleculares es fundamental para predecir con exactitud el comportamiento de sistemas químicos complejos. Una propiedad de interés es la constante de acoplamiento hiperfino, un parámetro medido experimentalmente mediante Resonancia Paramagnética Electrónica (EPR) que brinda información crucial sobre la distribución electrónica y las interacciones espín-núcleo en moléculas y materiales. Esta técnica espectroscópica es utilizada principalmente en química, física, biología y medicina, para detectar y cuantificar electrones desapareados, radicales libres, iones de metales de transición y defectos en materiales. Lo que permite el análisis estructural para determinar el entorno local de iones metálicos y defectos en redes cristalinas; estudios de oxidación para evaluar la capacidad antioxidante en alimentos (aceites, tés) y muestras biológicas; en medicina permite el diagnóstico de hipoxia (falta de oxígeno) y estudios de tejidos, y en geología, determinar la edad de muestras geológicas o arqueológicas.
+                </p>
+                <p>
+                    Sin embargo, calcular esta propiedad con precisión requiere métodos sofisticados y altamente correlacionados, como el Método de Coupled-Cluster que, aunque es extremadamente preciso, conlleva un elevado costo computacional. Dada esta problemática, el presente proyecto tiene como propósito implementar un módulo dentro del software deMon2k para el cálculo de las constantes hiperfinas mediante la Teoría de los Funcionales de la Densidad Auxiliar. Esta implementación busca encontrar un equilibrio entre precisión, eficiencia y costo computacional, haciendo posible el estudio de sistemas más grandes y complejos, como fulerenos con átomos de nitrógeno encapsulados, que no serían fácilmente abordables con métodos como Coupled-Cluster debido a sus limitaciones de escalabilidad. El enfoque de este trabajo no sólo se centra en la programación y la validación en el nuevo módulo programado con las cuatro contribuciones conocidas en la teoría de las constantes hiperfinas en el software deMon2k, sino también en evaluar la calidad de los resultados mediante la comparación con valores experimentales y cálculos obtenidos por métodos de alta correlación. Además, se analizará la influencia de diferentes combinaciones de funcionales de intercambio corrección, funciones de base y funciones auxiliares para identificar las configuraciones óptimas que maximicen la precisión sin sacrificar la eficiencia.
+                </p>
+                <p>
+                    La incorporación de este módulo en deMon2k aportará una herramienta de gran utilidad para la comunidad científica, permitiendo cálculos precisos, más rápidos y eficaces para propiedades hiperfinas en sistemas más complejos, lo cual hasta ahora ha sido una limitación práctica. En particular, el estudio de sistemas de fulerenos dopados con nitrógeno servirá como un caso de prueba crítico para demostrar tanto la eficiencia computacional del módulo como su capacidad para predecir cambios en la constante hiperfina en función del tamaño del sistema.
+                </p>
+            </section>
+
+            <!-- HIPÓTESIS -->
+            <section id="hipotesis" class="section-content">
+                <h2>Hipótesis</h2>
+                <p>
+                    La validación de las constantes hiperfinas mediante la novedosa implementación de éstas dentro del marco teórico de la Teoría de los Funcionales de la Densidad Auxiliar que predicen los errores o desviaciones de las constantes calculadas están dentro del error experimental, estadísticamente hablando y además nuestras predicciones son comparables a los métodos que tienen una alta correlación electrónica.
+                </p>
+            </section>
+
+            <!-- OBJETIVOS: GENERAL Y ESPECÍFICOS -->
+            <section id="objetivos" class="section-content">
+                <h2>Objetivos: General y específicos</h2>
+                
+                <h3>Objetivo general</h3>
+                <p>
+                    Crear un módulo dentro del software deMon2k para el cálculo del parámetro de resonancia paramagnética electrónica, conocido como Constante de Acoplamiento Hiperfino y validar los cálculos obtenidos con este método, tanto con valores experimentales como valores calculados con un método altamente correlacionado como lo es: el Método de Coupled-Cluster. Así como analizar la calidad de los resultados obtenidos, usando diferentes combinaciones de los funcionales de intercambio y correlación, funciones de base y funciones auxiliares. Además de comprobar la eficiencia computacional de la implementación usando sistemas relativamente grandes, como la constante hiperfina del átomo de nitrógeno encapsulado en fulerenos que crecen sistemáticamente.
+                </p>
+
+                <h3>Objetivos específicos</h3>
+                <ol>
+                    <li>Búsqueda bibliográfica de moléculas pequeñas, cuyas constantes hiperfinas estén medidas y que además estas constantes hayan sido calculadas con el Método de Couple-Cluster.</li>
+                    <li>Programar las cuatro contribuciones conocidas en el marco teórico de la Teoría de los Funcionales de la Densidad Auxiliar en conjunto con su respectiva Teoría de Perturbaciones en el software deMon2k usando el lenguaje de programación Fortran 90.</li>
+                    <li>Construir la geometría molecular de cada una de las moléculas colectadas en la búsqueda bibliográfica.</li>
+                    <li>Optimizar cada una de las moléculas usando el funcional de intercambio y correlación PBE y las funciones de base DZVP-GGA, la función auxiliar GEN-A2*.</li>
+                    <li>Calcular la constante hiperfina en cada una de las moléculas optimizadas, usando los funcionales de intercambio y correlación (VWN, PBE, PW91, OLYP, OPBE y BLYP), las funciones de base (aug-pcS-X, aug-pcJ-X, aug-ccpVXZ y DZVP) y finalmente las funciones auxiliares (A2, GEN-A2*, GEN-A3*).</li>
+                    <li>Analizar los datos obtenidos con el Método ADFT y compararlos estadísticamente, tanto con los valores experimentales y aquellos obtenidos con el Método Coupled-Cluster para determinar la combinación de funcional, función de base y funciones auxiliares más conveniente para realizar cálculos de esta propiedad.</li>
+                    <li>Concluir si las constantes hiperfinas calculadas con nuestro módulo de ADFT son confiables o no.</li>
+                    <li>Buscar en bases de datos de internet las estructuras de fulerenos de diferentes tamaños y agregar un átomo de nitrógeno en sus centros.</li>
+                    <li>Calcular los sistemas de fulerenos y analizar la eficiencia computacional en función del número de base.</li>
+                    <li>Analizar cómo cambia la constante de acoplamiento hiperfina del nitrógeno al aumentar el tamaño del fulereno.</li>
+                </ol>
+            </section>
+
+            <!-- METODOLOGÍA -->
+            <section id="metodologia" class="section-content">
+                <h2>Metodología</h2>
+                <ol>
+                    <li>Optimización local de las moléculas encontradas usando el funcional de intercambio y correlación PBE y las funciones de base DZVPDZV-GGA junto con las funciones auxiliares GEN-A2* usando el software deMon2k.</li>
+                    <li>Revisión del módulo para cálculo de constantes de acoplamiento hiperfino para detectar posibles errores.</li>
+                    <li>Aprender Fortran-90 y corregir los errores detectados.</li>
+                    <li>Tomar la molécula del radical metilo y hacer cálculos sobre esta molécula y revisar que los resultados concuerdan con los datos experimentales, en caso de que no se repitan los pasos 2 y 3.</li>
+                    <li>Sabiendo que las constantes del radical metilo están bien predichas se procede a calcular todo el conjunto de moléculas encontradas.</li>
+                    <li>Se usarán los funcionales de intercambio y correlación: VWN, PBE, PW91, OLYP, OPBE.</li>
+                    <li>Se usarán los conjuntos de funciones de bases: aug-cc-pVXZ (X= D, T, Q, 5); aug-pcJ-X (X= 0, 1, 2, 3, 4, 5, 6).</li>
+                    <li>Se utilizan las funciones auxiliares: GEN-A2, GEN-A2*, GEN-A2**, GEN-A3, GEN-A3*, GEN-A3**.</li>
+                    <li>Calcular todo el conjunto de moléculas usando todas las combinaciones posibles de funcional, conjunto de bases y bases auxiliares.</li>
+                    <li>Realizar un script o programa que colecte todos los datos obtenidos y que los ponga en una tabla.</li>
+                    <li>Utilizar dicho script para calcular el error o desviación de nuestras constantes hiperfinas calculadas contra los datos experimentales y realizar estadísticas con estos errores (error medio, promedio de error, promedio de error absoluto, etc.).</li>
+                    <li>Calcular la constante hiperfina del átomo de nitrógeno encerrado en fulerenos de diversos tamaños y realizar una estadística de tiempo de cómputo contra número de átomos del sistema o número de procesadores usados.</li>
+                </ol>
+            </section>
+
+            <!-- RECURSOS -->
+            <section id="recursos" class="section-content">
+                <h2>Recursos</h2>
+                <p>
+                    Este proyecto es realizado en conjunto con varias personas encargadas de diferentes partes de un proyecto mayor, entre las personas que colaboran se encuentra: Ingrid Aribeth Trujillo Avila, Marlon Saul Ojeda Percastegui, además para realizarse, se utilizan computadoras capaces de realizar cálculos de alto costo computacional, así como contar con el apoyo del Cinvestav (Centro de Investigación y de Estudios Avanzados).
+                </p>
+            </section>
+
+            <!-- DESCRIPCIÓN DEL PROGRAMA deMon2K -->
+            <section id="demon2k" class="section-content">
+                <h2>Descripción del programa deMon2K</h2>
+                
+                <h3>Descripción del programa</h3>
+                <p>
+                    deMon (<em>density of Montréal</em>) es un paquete de software para cálculos de teoría funcional de la densidad (DFT). Utiliza el enfoque de combinación lineal de orbitales de tipo gaussiano (LCGTO) para la solución autoconsistente de las ecuaciones DFT de Kohn-Sham (KS). El cálculo de las integrales de repulsión electrónica de cuatro centros se evita introduciendo una base de funciones auxiliares para el ajuste variacional del potencial de Coulomb.
+                </p>
+
+                <h3>Características del programa</h3>
+                <p>Algunas de las características particulares de deMon2k son:</p>
+                <ul>
+                    <li>Modelos de energía cuántico-mecánicos (QM), moleculares (MM) e híbridos QM/MM en un solo paquete de software.</li>
+                    <li>El ajuste de densidad variacional para el potencial de Coulomb y Fock evita el cálculo de las integrales de repulsión electrónica de cuatro centros (ERIS).</li>
+                    <li>LCGTO Kohn-Sham y Teoría del Funcional de Densidad Auxiliar (ADFT), así como la teoría de Harthree-Fock disponibles.</li>
+                    <li>Amplia selección de funcionales LDA, GGA, mGGA e híbridos para Kohn-Sham y ADFT; correcciones de dispersión empíricas para todos los elementos.</li>
+                    <li>Método de campo autoconsistente (SCF) restringido, no restringido, de capa abierta restringida y no restringido restringido para todos los enfoques ab initio.</li>
+                    <li>Generación automática de conjuntos de funciones auxiliares para el ajuste de potenciales de Coulomb y Fock.</li>
+                    <li>Relaciones de recurrencia ERI analíticas de tres centros sin limitación l y doble expansión asintótica.</li>
+                    <li>Relaciones de recurrencia integrales ECP y MCP seminuméricas sin limitación l.</li>
+                    <li>Mallas adaptativas (y fijas) centradas en átomos para la integración numérica de funcionales de intercambio-correlación.</li>
+                    <li>Optimización de la estructura local y búsqueda del estado de transición con el algoritmo de pasos restringidos (cuasi) Newton.</li>
+                    <li>Interpolación de silla de montar de doble extremo para la búsqueda automática de estados de transición no intuitivos.</li>
+                    <li>Cálculos de la coordenada de reacción intrínseca.</li>
+                    <li>Dinámica molecular de Born-Oppenheimer (BOMD) y dinámica molecular QM/MM (NVE, NVT); cálculos de propiedades BOMD.</li>
+                    <li>ADFT dependiente del tiempo (TD-ADFT) para el cálculo de espectros UV/VIS.</li>
+                    <li>Teoría de perturbación de densidad auxiliar (ADPT) para el cálculo de polarizabilidades estáticas y dinámicas (α,β) y funciones de Fukui.</li>
+                    <li>Enfoque no iterativo para el método de Kohn-Sham perturbado acoplado (NIA-CPKS) para polarizabilidades estáticas dipolo-dipolo y dipolo-cuadrupolo.</li>
+                    <li>Resonancia magnética nuclear (RMN), apantallamiento magnético y magnetizabilidad molecular a partir de ADFT-GIAO.</li>
+                    <li>Tensor g rotacional y constantes de rotación de espín nuclear de ADFT-GIAO.</li>
+                    <li>Cálculo del espectro de absorción y emisión de rayos X.</li>
+                    <li>Funciones termodinámicas a partir de la aproximación del gas ideal poliatómico y simulaciones BOMD.</li>
+                    <li>Momentos eléctricos, DOS y análisis de población (Mulliken, Löwdin, NBO, Bader, Voroni, Becke, Hirshfeld, etc.).</li>
+                    <li>Visualización de campos moleculares y análisis topológico de la densidad electrónica y el potencial electrostático.</li>
+                    <li>Interfaz para software de visualización (Molden, Molekel, Vu, XAIM) y CHARMM.</li>
+                    <li>Código totalmente paralelo MPI, portable a diversas plataformas informáticas y sistemas operativos.</li>
+                    <li>Conjuntos de bases optimizados para DFT y software de utilidad.</li>
+                    <li>Interfaz para Libxc.</li>
+                </ul>
+
+                <h3>Otras características</h3>
+                <p>Además, en las versiones privadas de deMon2k se implementan varias otras características. Algunas de estas características son:</p>
+                <ul>
+                    <li>ADFT restringido</li>
+                    <li>Interacciones de dispersión</li>
+                    <li>Propagador de electrones</li>
+                    <li>Cálculo de carga fraccionaria</li>
+                    <li>Modelo híbrido QM/MM con campo de fuerza polarizable y modelo de inducción de dipolo puntual de carga.</li>
+                    <li>Metadinámica combinada con ADFT y métodos de enlace fuerte de la teoría del funcional de la densidad.</li>
+                    <li>ADFT multicomponente</li>
+                    <li>Funcionales con separación de rango</li>
+                    <li>TD-ADFT en tiempo real para simulaciones de dinámica electrónica de attosegundos</li>
+                    <li>Definiciones revisadas de dureza local y núcleo de dureza</li>
+                    <li>Varias variantes de la función α introducidas por JP Perdew en mGGA</li>
+                    <li>Hiperpolarizabilidades de primer orden estáticas y dinámicas obtenidas mediante TD-ADPT</li>
+                </ul>
+            </section>
+
+        </main>
+    </div>
+
+    <footer>
+        Validación del cálculo de constantes hiperfinas usando la ADFT &bull; Química Teórica y Computacional
+    </footer>
+
+    <script>
+        function mostrarSeccion(idSeccion, botonSeleccionado) {
+            // Ocultar todas las secciones
+            const secciones = document.querySelectorAll('.section-content');
+            secciones.forEach(seccion => {
+                seccion.classList.remove('active');
+            });
+
+            // Quitar estado activo de todos los botones
+            const botones = document.querySelectorAll('.nav-btn');
+            botones.forEach(boton => {
+                boton.classList.remove('active');
+            });
+
+            // Mostrar la sección elegida y resaltar el botón presionado
+            document.getElementById(idSeccion).classList.add('active');
+            botonSeleccionado.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
